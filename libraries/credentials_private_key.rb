@@ -42,9 +42,9 @@ class Chef
     #
     def private_key(arg = nil)
       if arg.nil?
-        @private_key
+        result = set_or_return(:private_key, nil, kind_of: String)
+        OpenSSL::PKey::RSA.new(result).to_pem unless result.empty?
       else
-        arg = OpenSSL::PKey::RSA.new(arg).to_pem unless arg.empty?
         set_or_return(:private_key, arg, kind_of: String)
       end
     end
